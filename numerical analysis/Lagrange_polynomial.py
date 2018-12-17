@@ -2,21 +2,28 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-x = [1, 4.0, 6]
-y = [0, 1.3863, 1.7918]
+x = [0, 4, 6, 8]
+y = [0, 1.3863, 1.7918, 2.1638]
 
-def f(temp_x):
+def f(g_x):
     global x, y
     n = len(x)
-    return ((temp_x - x[1]) / (x[0] - x[1]))*((temp_x - x[2]) / (x[0] - x[2]))*y[0] \
-+ ((temp_x - x[0]) / (x[1] - x[0]))*((temp_x - x[2]) / (x[1] - x[2]))*y[1] \
-+ ((temp_x - x[0]) / (x[2] - x[0]))*((temp_x - x[1]) / (x[2] - x[1]))*y[2]
+    sum = 0
+    for i in range(n):
+        part = 1.0
+        for j in range(n):
+            if i != j:
+                part = part*((g_x - x[j]) / (x[i] - x[j]))
+        # print(y[i])
+        sum = y[i]*part + sum
+    return sum
 
 plt.figure(figsize=(8, 6))
 plt.title("1607094243许建明's Lagrange polynomial")
 plt.xlabel("x")
 plt.ylabel("f(x)")
 g_x = np.arange( x[0], x[len(x)-1], 0.01)
+plt.plot(g_x, f(g_x))
 plt.scatter(x, y)
 plt.plot(g_x, f(g_x))
 plt.show()
